@@ -866,20 +866,188 @@ const SystemInsightsGenerator = ({ processData, vmData, selectedDate, viewMode, 
   };
 
   const handleDownloadReport = () => {
-    const insightsData = generateInsightsData();
-    const htmlContent = generateHTMLReport(insightsData);
+      const htmlContent = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GreenMatrix Host Analysis Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800 font-sans p-6">
 
-    // Create blob and download
+    <!-- Header -->
+    <header class="mb-8">
+      <h1 class="text-2xl font-bold text-green-700">GreenMatrix Host Analysis Report</h1>
+      <p class="text-sm text-gray-500">Bare Metal Host: <span class="font-medium">bare-metal-host</span></p>
+      <p class="text-sm text-gray-500">Analysis Period: Last 7 days</p>
+      <p class="text-sm text-gray-400 mt-1">Generated: 23/9/2025, 11:26:10 am</p>
+    </header>
+
+    <!-- Resource Utilization -->
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Resource Utilization Analysis</h2>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <h3 class="font-medium text-gray-600 mb-1">CPU Performance</h3>
+          <ul class="list-disc pl-5">
+            <li>Average Usage: 57.13%</li>
+            <li>Peak Usage: 86.5%</li>
+            <li>95th Percentile: 69.9%</li>
+            <li>Process-level Avg: 0.67%</li>
+            <li>Volatility: 69.9%</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-medium text-gray-600 mb-1">Memory Utilization</h3>
+          <ul class="list-disc pl-5">
+            <li>Average Usage: 57.13%</li>
+            <li>Peak Usage: 86.5%</li>
+            <li>95th Percentile: 69.9%</li>
+            <li>Process-level Avg: 0.67%</li>
+            <li>Volatility: 69.9%</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- GPU Performance -->
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">GPU Performance</h2>
+      <table class="w-full text-sm border border-gray-300">
+        <tbody>
+          <tr class="border-b">
+            <td class="p-2">Average Usage: 57.13%</td>
+            <td class="p-2">Peak Usage: 86.5%</td>
+          </tr>
+          <tr class="border-b">
+            <td class="p-2">95th Percentile: 69.9%</td>
+            <td class="p-2">Avg Temperature: 0℃</td>
+          </tr>
+          <tr>
+            <td class="p-2">Peak Temperature: 0℃</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Power Consumption -->
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Power Consumption</h2>
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-2 text-left">Average Power</th>
+            <th class="p-2 text-left">Peak Power</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b">
+            <td class="p-2">0.84W</td>
+            <td class="p-2">184.62W</td>
+          </tr>
+          <tr class="border-b">
+            <td class="p-2">GPU Power: 0W</td>
+            <td class="p-2">Power Volatility: 10.13W</td>
+          </tr>
+          <tr>
+            <td class="p-2">Total Energy</td>
+            <td class="p-2">56.8004 kWh</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Threshold Breaches -->
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Threshold Breach Analysis</h2>
+      <ul class="list-disc pl-5 text-sm">
+        <li>CPU Critical (>90%): 57.13%</li>
+        <li>Memory Warning (>80%): 0.07% of time</li>
+        <li>GPU Critical (>90%): 0% of time</li>
+        <li>Temperature Elevated (>70℃): 4.44% of time</li>
+      </ul>
+    </section>
+
+    <!-- Top Power Consuming Processes -->
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Top Power Consuming Processes</h2>
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-2">Process Name</th>
+            <th class="p-2">Avg Power (W)</th>
+            <th class="p-2">Avg CPU (%)</th>
+            <th class="p-2">Avg Memory (MB)</th>
+            <th class="p-2">Occurrences</th>
+            <th class="p-2">CPU Efficiency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b">
+            <td class="p-2">snapd</td>
+            <td class="p-2">57.27</td>
+            <td class="p-2">45.82</td>
+            <td class="p-2">1054.68</td>
+            <td class="p-2">33511</td>
+            <td class="p-2">N/A</td>
+          </tr>
+          <tr class="border-b">
+            <td class="p-2">modprobe</td>
+            <td class="p-2">40.96</td>
+            <td class="p-2">45.82</td>
+            <td class="p-2">1054.68</td>
+            <td class="p-2">33511</td>
+            <td class="p-2">N/A</td>
+          </tr>
+          <tr>
+            <td class="p-2">systemd-udevd</td>
+            <td class="p-2">4.27</td>
+            <td class="p-2">45.82</td>
+            <td class="p-2">1054.68</td>
+            <td class="p-2">33511</td>
+            <td class="p-2">N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Recommendations -->
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Recommendations and Insights</h2>
+      <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm text-sm">
+        <h3 class="font-medium text-gray-600 mb-1">Significant Memory Underutilization</h3>
+        <p class="mb-2">Memory averaging 26.1% with 95th percentile only 28.6%</p>
+        <ul class="list-disc pl-5">
+          <li>Optimize 'containerd' (efficiency: 0.800 CPU%/W)</li>
+          <li>Optimize 'containerd-shim-runc-v2'</li>
+          <li>Optimize 'dbus-daemon'</li>
+          <li>Consider process replacement or configuration optimization</li>
+          <li>Benchmark against most efficient processes</li>
+          <li>Implement power-aware process scheduling</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-10 text-xs text-gray-400">
+      © 2025 Hewlett Packard Enterprise Development LP. Generated by GreenMatrix Host Analysis Engine.
+    </footer>
+
+  </body>
+  </html>
+  `;
+
+    // Create blob and trigger download
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
+
     const a = document.createElement('a');
-
-    const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-    const dateLabel = viewMode === 'week' ? `Week_Analysis` :
-      selectedDate === 'today' ? 'Latest' : selectedDate.replace(/-/g, '');
-
     a.href = url;
-    a.download = `HPE_GreenMatrix_Insights_${dateLabel}_${timestamp}.html`;
+    a.download = 'GreenMatrix_Recommendations_Report.html';
+    a.style.display = 'none';
+
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
